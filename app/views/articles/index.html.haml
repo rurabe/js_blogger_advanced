@@ -1,0 +1,18 @@
+%h1
+  = @tag ? "Articles Tagged '#{@tag}'" : "All Articles"
+
+= link_to "New Article", new_article_path, class: 'new_article'
+
+%div#sidebar
+  Filter by Tag: #{tag_links(Tag.all)}
+
+%ul
+  - @articles.each do |article|
+    %li
+      = link_to article.title, article_path(article)
+      %span.tag_list
+        = article.tag_list
+      %span.actions
+        = edit_icon(article)
+        = delete_icon(article)
+      = pluralize article.comments.count, "Comment"
