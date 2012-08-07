@@ -1,8 +1,10 @@
 class Article < ActiveRecord::Base
+  include TextContent
+  include Commentable
+
   validates :title, :presence => true, :uniqueness => true
   validates :body, :presence => true
 
-  has_many :comments
   has_many :taggings
   has_many :tags, :through => :taggings
 
@@ -13,7 +15,7 @@ class Article < ActiveRecord::Base
   end
 
   def tag_list
-     tags.collect{|t| t.name}.join(", ")
+    tags.collect{|t| t.name}.join(", ")
   end
 
   def self.most_popular
@@ -54,7 +56,7 @@ class Article < ActiveRecord::Base
   def self.total_word_count
     all.inject(0) {|total, a| total += a.word_count }
   end
-  
+
   def self.generate_samples(quantity = 1000)
     tags = Tag.all
     quantity.times do
@@ -63,7 +65,7 @@ class Article < ActiveRecord::Base
       article.tags = tags.sort_by{ rand }[0..rand(tags.length)]
       article.save
       (rand(10) + 1).times do
-      	Fabricate(:comment, :article => article, :created_at => article.created_at + rand(100).hours)
+        Fabricate(:comment, :article => article, :created_at => article.created_at + rand(100).hours)
       end
       yield if block_given?
     end

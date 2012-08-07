@@ -21,4 +21,6 @@ group :development, :test do
   #gem 'rb-fsevent'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'simplecov', :require => false
+  gem 'simplecov-rcov', :require => false
 end

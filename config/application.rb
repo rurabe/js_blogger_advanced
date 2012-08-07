@@ -44,5 +44,10 @@ module JsbloggerCodemash
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    #Load the modules in the app/concerns directory
+    config.autoload_paths += %W(#{config.root}/app/concerns)
+    # config.autoload_paths += %W('/app/concerns')
+
   end
 end
